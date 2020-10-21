@@ -8,6 +8,7 @@ import com.jetbrains.php.lang.psi.elements.*;
 import com.jetbrains.php.lang.psi.elements.impl.VariableImpl;
 import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import com.jetbrains.php.lang.psi.resolve.types.PhpTypeProvider3;
+import com.jetbrains.php.lang.psi.resolve.types.PhpTypeProvider4;
 import com.nvlad.yii2support.common.ClassUtils;
 import com.nvlad.yii2support.common.MethodUtils;
 import com.nvlad.yii2support.objectfactory.ObjectFactoryUtils;
@@ -21,7 +22,7 @@ import java.util.Set;
 /**
  * Created by oleg on 2017-06-08.
  */
-public class YiiTypeProvider extends CompletionContributor implements PhpTypeProvider3 {
+public class YiiTypeProvider extends CompletionContributor implements PhpTypeProvider4 {
     final static char TRIM_KEY = '\u0197';
 
     @Override
@@ -52,6 +53,12 @@ public class YiiTypeProvider extends CompletionContributor implements PhpTypePro
             }
         }
 
+        return null;
+    }
+
+    @Nullable
+    @Override
+    public PhpType complete(String s, Project project) {
         return null;
     }
 

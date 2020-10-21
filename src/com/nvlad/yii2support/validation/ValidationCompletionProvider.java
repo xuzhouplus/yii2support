@@ -31,13 +31,13 @@ public class ValidationCompletionProvider extends CompletionProvider<CompletionP
             PhpExpression phpExpression = (PhpExpression) position.getParent();
             if (phpClass != null) {
                 RulePositionEnum getPosition = getPosition(position);
+                System.out.println(getPosition);
                 if (getPosition.equals(RulePositionEnum.FIELD)) {
                     ArrayList<LookupElementBuilder> items = DatabaseUtils.getLookupItemsByAnnotations(phpClass, (PhpExpression) completionParameters.getPosition().getParent());
                     for (Field field : ClassUtils.getWritableClassFields(phpClass)) {
                         LookupElementBuilder lookupBuilder = buildLookup(field, phpExpression, false);
                         completionResultSet.addElement(lookupBuilder);
                     }
-
                     completionResultSet.addAllElements(items);
                 } else if (getPosition.equals(RulePositionEnum.TYPE)) {
                     List<Validator> validators = ValidationUtil.getAllValidators(phpClass);
@@ -52,13 +52,6 @@ public class ValidationCompletionProvider extends CompletionProvider<CompletionP
                             completionResultSet.addElement(buildLookup((Method) validator.validator));
                         }
                     }
-//                    for (Map.Entry<String, PhpNamedElement> entry : validators.entrySet()) {
-//                        if (entry.getValue() instanceof PhpClass) {
-//                            completionResultSet.addElement(buildLookup(entry.getKey(), (PhpClass) entry.getValue(), phpExpression));
-//                        } else if (entry.getValue() instanceof Method) {
-//                            completionResultSet.addElement(buildLookup((Method) entry.getValue(), phpExpression));
-//                        }
-//                    }
                 } else if (getPosition.equals(RulePositionEnum.OPTIONS)) {
                     ArrayCreationExpression arrayCreation = (ArrayCreationExpression) PsiUtil.getSuperParent(position, ArrayCreationExpression.class, 4);
                     if (arrayCreation != null) {
@@ -213,7 +206,7 @@ public class ValidationCompletionProvider extends CompletionProvider<CompletionP
             return RulePositionEnum.UNKNOWN;
         }
 
-        if (validationParameter.toString().equals("Array value") && validationParameter.getParent() instanceof ArrayCreationExpression) {
+        if (validationParameter instanceof PhpPsiElement && validationParameter.getParent() instanceof ArrayCreationExpression) {
             int index = PsiUtil.getValueIndexInArray(validationParameter, (ArrayCreationExpression) validationParameter.getParent());
             if (index == 0)
                 return RulePositionEnum.FIELD;

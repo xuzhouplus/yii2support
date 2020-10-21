@@ -20,7 +20,7 @@ allprojects {
 //}
 
 dependencies {
-    compile ('io.sentry:sentry:1.7.12') {
+    compile('io.sentry:sentry:1.7.12') {
         exclude group: 'org.slf4j', module: 'slf4j-api'
         exclude group: 'com.fasterxml.jackson.core', module: 'jackson-core'
     }
@@ -30,6 +30,7 @@ buildscript {
     repositories {
         maven { url 'http://dl.bintray.com/jetbrains/intellij-plugin-service' }
         maven { url "https://plugins.gradle.org/m2/" }
+        maven { url 'https://www.jetbrains.com/intellij-repository/releases' }
     }
 
     dependencies {
@@ -62,8 +63,7 @@ apply plugin: 'org.jetbrains.intellij'
 
 intellij {
     type 'IU'
-    version ideVersion
-    alternativeIdePath runIdePath
+    localPath localIdePath
     updateSinceUntilBuild false
     plugins = [
             "com.jetbrains.php:${phpPluginVersion}",
@@ -87,4 +87,4 @@ publishPlugin {
 }
 
 group "com.nvlad"
-version "0.10.57.24"
+version "0.10.57.25"
